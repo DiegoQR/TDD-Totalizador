@@ -20,17 +20,23 @@ describe("Totalizador-Cantidad", () => {
   it("deberia calcular para un estado de Alabama", () => {
     expect(calcularTotal(3, 2, "AL")).toEqual(6.24);
   });
+  it("deberia calcular con un descuento del 10%", () => {
+    expect(calcularTotal(3, 2, "", 0.1)).toEqual(5.4);
+  });
+  it("deberia calcular para un estado de Alabama para un descuetno del 50%", () => {
+    expect(calcularTotal(3, 2, "AL", 0.5)).toEqual(3.24);
+  });
 });
 
 
 function impuestoEstado(estado) {
-  let impuestos = { CA: 0.0825, UT: 0.0665, NV: 0.08, TX: 0.0625, AL: 0.04,"": 0 };
+  let impuestos = { CA: 0.0825, UT: 0.0665, NV: 0.08, TX: 0.0625, AL: 0.04, "": 0 };
   return impuestos[estado];
 }
 
-function calcularTotal(cantidad, precio, estado) {
+function calcularTotal(cantidad, precio, estado="",descuento=0) {
   let subTotal = cantidad * precio;
   let impuesto = impuestoEstado(estado);
-  subTotal = subTotal + subTotal * impuesto;
+  subTotal = subTotal + subTotal * impuesto - subTotal*descuento;
   return subTotal;
 }
